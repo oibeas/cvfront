@@ -1,0 +1,43 @@
+.home {
+    height: 100%;
+    overflow: scroll;
+
+    .secciones {
+        /* Take full size */
+        height: 100%;
+        width: 100%;
+        /* Stick to the top */
+        position: sticky;
+        top: 0;
+    }
+
+    .hero {
+        background-color: papayawhip;
+
+        &>div {
+            /* Center the content */
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            /* Take full size */
+            height: 100vh;
+            width: 100%;
+
+            /* Background */
+            background-image: url('/assets/images/full-background.jpg');
+            background-position: center right;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    }
+
+    .about {
+        background-color: lightgrey;
+    }
+
+    .proyectos {
+        background-color: darkgrey;
+    }
+}
