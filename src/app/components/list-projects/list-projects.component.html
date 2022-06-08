@@ -1,5 +1,13 @@
+<div class="filtros">
+    <ul>
+        <li (click)="cargarCategoria()">Todos</li>
+        <li (click)="cargarCategoria(categoria)" *ngFor="let categoria of arrCategorias">{{categoria}}</li>
+    </ul>
+</div>
 <div class="list-projects">
-    <div class="proyecto">
+    <div class="proyecto" *ngFor="let proyecto of arrProyectos">
+        <h2>{{proyecto.titulo}}</h2>
+        <a [routerLink]="['/projects',proyecto._id]">Ver detalle</a>
     </div>
 
 </div>
