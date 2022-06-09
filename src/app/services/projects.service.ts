@@ -26,11 +26,23 @@ export class ProjectsService {
     //   }
     // );
 
-    this.baseUrl = 'https://cvbackoibeas.herokuapp.com/api/proyectos';
+    this.baseUrl = 'https://cvbackoibeas.herokuapp.com/api/proyectos/';
     this.getToken(); //ejecuta la funcion para recuperar el token
   }
 
-  //Vamos a crear un metodo dentro dwl servicio que me permita obtener el token
+
+  //Creo una funcion para generar las cabeceras
+  getOptions() {
+    const valores = {
+      headers: new HttpHeaders({
+        'access-token': localStorage.getItem('token'), //con esto obtengo el token del localstorage almacenado
+      })
+    };
+    return valores
+  }
+
+
+  //Vamos a crear un metodo dentro del servicio que me permita obtener el token
   getToken(): void {
     let objetoToken: any;
     //Hacemos la peticion get y esto me devuelve un observable y me tengo que suscribir para recibirlo cuando lo devuelva
@@ -40,33 +52,33 @@ export class ProjectsService {
       //vamos a guardar el token en el localStorage
       localStorage.setItem('token', objetoToken.token);
     })
-
   }
+
 
   getAllProjects(): Promise<Project[]> {
     // return this.arrProyectos;
     // return this.httpClient.get<Project[]>(this.baseUrl).toPromise()
     //Lo cambio de toPromise a lastValueFrom por estar deprecado
     //necesito las cabeceras
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'access-token': localStorage.getItem('token'), //con esto obtengo el token del localstorage almacenado
-
-      })
-    }
+    const httpOptions = this.getOptions()
     return lastValueFrom(this.httpClient.get<Project[]>(this.baseUrl, httpOptions));
   }
 
 
   //Creo una funcion para filtrar proyectos por categoria
   getProjectsByCategory(pCategory: string): Promise<Project[]> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'access-token': localStorage.getItem('token'),
-      })
-    }
+    const httpOptions = this.getOptions()
     // return this.httpClient.get<Project[]>(this.baseUrl,httpOptions).toPromise();
-    return lastValueFrom(this.httpClient.get<Project[]>(this.baseUrl + '/' + pCategory, httpOptions));
+    return lastValueFrom(this.httpClient.get<Project[]>(this.baseUrl + 'categoria/' + pCategory, httpOptions)); //Le añado la categoria para que me devuelva el array de proyectos filtrado
   }
+
+  //Necesito una funcion para recoger un proyecto por su ID y devolverlo
+  getProjectById(pId: string): Promise<Project> {
+    const httpOptions = this.getOptions()
+    return lastValueFrom(this.httpClient.get<Project>(this.baseUrl + pId, httpOptions));
+  }
+
+
+
 
 }
